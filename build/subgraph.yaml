@@ -1,12 +1,12 @@
 specVersion: 0.0.2
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: collectionFactoryV1
     network: mainnet
     source:
-      address: '0x08957C298c1232e7FCf383F974dd92E7d9F6496E'
+      address: "0x08957C298c1232e7FCf383F974dd92E7d9F6496E"
       abi: collectionFactoryV1
       startBlock: 5741000
     mapping:
@@ -18,13 +18,13 @@ dataSources:
         - NewCollectionCreated
       abis:
         - name: collectionFactoryV1
-          file: ./abis/collectionFactory.json
+          file: collectionFactoryV1\abis\collectionFactory.json
       eventHandlers:
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
         - event: NewCollectionCreated(indexed address,indexed address,indexed uint256)
           handler: handleNewCollectionCreated
-      file: ./src/mapping.ts
+      file: collectionFactoryV1\collectionFactoryV1.wasm
   - name: cvCollectibles
     kind: ethereum/contract
     network: mainnet
@@ -44,11 +44,11 @@ dataSources:
         - URI
       abis:
         - name: cvCollectibles
-          file: ./abis/cvCollectiblesold.json
+          file: cvCollectibles\abis\cvCollectiblesold.json
       eventHandlers:
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
-      file: ./src/mapping.ts
+      file: collectionFactoryV1\collectionFactoryV1.wasm
 templates:
   - name: cvCollectibles
     kind: ethereum/contract
@@ -68,10 +68,8 @@ templates:
         - URI
       abis:
         - name: cvCollectibles
-          file: ./abis/cvCollectibles.json
+          file: cvCollectibles\abis\cvCollectibles.json
       eventHandlers:
-        # - event: ApprovalForAll(indexed address,indexed address,bool)
-        #   handler: handleApprovalForAll
         - event: MetaTransactionExecuted(address,address,bytes)
           handler: handleMetaTransactionExecuted
         - event: OwnershipTransferred(indexed address,indexed address)
@@ -80,6 +78,4 @@ templates:
           handler: handleTransferBatch
         - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
           handler: handleTransferSingle
-        # - event: URI(string,indexed uint256)
-        #   handler: handleURI
-      file: ./src/mapping.ts
+      file: collectionFactoryV1\collectionFactoryV1.wasm
