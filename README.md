@@ -1,4 +1,4 @@
-# subgraph-cryptovoxels-names
+# Subgraph for ETH collection
 The repo for the Subgraph of cryptovoxels names
 
 You can follow the tutorial at [https://thegraph.com/docs/developer/quick-start](https://thegraph.com/docs/developer/quick-start)
