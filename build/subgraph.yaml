@@ -8,7 +8,7 @@ dataSources:
     source:
       address: "0x08957C298c1232e7FCf383F974dd92E7d9F6496E"
       abi: collectionFactoryV1
-      startBlock: 5741000
+      startBlock: 12800000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -30,7 +30,7 @@ dataSources:
     network: mainnet
     source:
       abi: cvCollectibles
-      startBlock: 5741000
+      startBlock: 5740000
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
