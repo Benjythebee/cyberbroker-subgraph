@@ -36,12 +36,9 @@ dataSources:
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - ApprovalForAll
-        - MetaTransactionExecuted
         - OwnershipTransferred
         - TransferBatch
         - TransferSingle
-        - URI
       abis:
         - name: cvCollectibles
           file: cvCollectibles\abis\cvCollectiblesold.json
@@ -70,8 +67,6 @@ templates:
         - name: cvCollectibles
           file: cvCollectibles\abis\cvCollectibles.json
       eventHandlers:
-        - event: MetaTransactionExecuted(address,address,bytes)
-          handler: handleMetaTransactionExecuted
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
         - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])

@@ -52,7 +52,7 @@ export function handleTransferBatch(event: TransferBatchEvent): void {
     return;
   }
   let ids = event.params.ids;
-  log.debug("New transferBatch, from: {}, to: {}", [
+  log.info("New transferBatch, from: {}, to: {}", [
     event.params.from.toHex(),
     event.params.to.toHex(),
   ]);
@@ -70,7 +70,11 @@ export function handleTransferBatch(event: TransferBatchEvent): void {
     let id = ids[index];
     let token_id = id.toString() + "@" + collection.id;
     let q = values[index];
-
+    log.info("index: {}, tokenID: {}, value: {}", [
+      index.toString(),
+      id.toString(),
+      q.toString(),
+    ]);
     let collectible = getCollectible(id, collection);
 
     if (collectible.quantity == new BigInt(0)) {
@@ -82,10 +86,9 @@ export function handleTransferBatch(event: TransferBatchEvent): void {
     }
 
     let wasMinted: boolean =
-      userFrom.id == "0x0000000000000000000000000000000000000000";
+      from == "0x0000000000000000000000000000000000000000";
 
-    let isBurned: boolean =
-      userTo.id == "0x0000000000000000000000000000000000000000";
+    let isBurned: boolean = to == "0x0000000000000000000000000000000000000000";
 
     if (wasMinted == false) {
       // Lookups management
@@ -96,9 +99,20 @@ export function handleTransferBatch(event: TransferBatchEvent): void {
         fromLookup.owner = from;
         fromLookup.collection = collection.id;
         fromLookup.collectible = token_id.toString();
+        fromLookup.quantity = new BigInt(0);
       }
 
-      fromLookup.quantity = contract.balanceOf(event.params.to, id);
+      let ownedQuantity_from = contract.balanceOf(event.params.from, id);
+      if (ownedQuantity_from != null) {
+        fromLookup.quantity = ownedQuantity_from;
+      } else if (fromLookup.quantity >= q) {
+        fromLookup.quantity = new BigInt(
+          fromLookup.quantity.toI32() - q.toI32()
+        );
+      } else {
+        fromLookup.quantity = new BigInt(0);
+      }
+
       fromLookup.save();
     }
 
@@ -110,9 +124,15 @@ export function handleTransferBatch(event: TransferBatchEvent): void {
         toLookup.owner = to;
         toLookup.collection = collection.id;
         toLookup.collectible = id.toString();
+        toLookup.quantity = new BigInt(0);
+      }
+      let ownedQuantity_to = contract.balanceOf(event.params.to, id);
+      if (ownedQuantity_to != null) {
+        toLookup.quantity = ownedQuantity_to;
+      } else {
+        toLookup.quantity = new BigInt(toLookup.quantity.toI32() + q.toI32());
       }
 
-      toLookup.quantity = contract.balanceOf(event.params.to, id);
       toLookup.save();
     }
 
@@ -149,11 +169,9 @@ export function handleTransferSingle(event: TransferSingle): void {
 
   let collectible = getCollectible(id, collection);
 
-  let wasMinted: boolean =
-    userFrom.id == "0x0000000000000000000000000000000000000000";
+  let wasMinted: boolean = from == "0x0000000000000000000000000000000000000000";
 
-  let isBurned: boolean =
-    userTo.id == "0x0000000000000000000000000000000000000000";
+  let isBurned: boolean = to == "0x0000000000000000000000000000000000000000";
 
   if (wasMinted) {
     log.info("Collectible was minted: {}", [event.params.value.toString()]);
@@ -182,12 +200,20 @@ export function handleTransferSingle(event: TransferSingle): void {
       fromLookup.owner = from;
       fromLookup.collection = collection.id;
       fromLookup.collectible = collectible.id;
+      fromLookup.quantity = new BigInt(0);
     }
 
-    log.debug("Getting balance from: {}", [event.params.from.toHex()]);
+    log.debug("Getting balance of from: {}", [event.params.from.toHex()]);
     let balFrom = contract.balanceOf(event.params.from, collectible.token_id);
-    fromLookup.quantity = balFrom;
-
+    if (balFrom != null) {
+      fromLookup.quantity = balFrom;
+    } else if (fromLookup.quantity >= value) {
+      fromLookup.quantity = new BigInt(
+        fromLookup.quantity.toI32() - value.toI32()
+      );
+    } else {
+      fromLookup.quantity = new BigInt(0);
+    }
     fromLookup.save();
   }
 
@@ -200,11 +226,21 @@ export function handleTransferSingle(event: TransferSingle): void {
       toLookup.owner = to;
       toLookup.collection = collection.id;
       toLookup.collectible = collectible.id;
+      toLookup.quantity = new BigInt(0);
     }
 
-    let balTo = contract.balanceOf(event.params.to, collectible.token_id);
-
-    toLookup.quantity = balTo;
+    if (wasMinted) {
+      toLookup.quantity = value;
+    } else {
+      let ownedQuantity_to = contract.balanceOf(event.params.to, id);
+      if (ownedQuantity_to != null) {
+        toLookup.quantity = ownedQuantity_to;
+      } else {
+        toLookup.quantity = new BigInt(
+          toLookup.quantity.toI32() + value.toI32()
+        );
+      }
+    }
 
     toLookup.save();
   }
@@ -253,7 +289,6 @@ export function getUser(address: string): User | null {
   let user = User.load(address);
   if (user == null) {
     user = new User(address);
-    log.info("New user: {}", [address.toString()]);
     user.save();
   }
   log.info("Found user: {}", [address.toString()]);

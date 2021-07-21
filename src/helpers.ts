@@ -18,7 +18,7 @@ export function getLegacyCollection(
   for (let i = 0; i < arrayOfBytess.length; i++) {
     let object = arrayOfBytess[i].toObject();
     let addy = object.get("address")
-    if (toLowerCase(jsonToString(addy)) == address.toHex()) {
+    if (jsonToString(addy) == address.toHex()) {
       p = object;
     }
   }
