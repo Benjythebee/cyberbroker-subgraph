@@ -1,28 +1,27 @@
-
 type Collection @entity {
   id: ID! #eth address
   owner: User!
   collection_id: BigInt! #collection Id
-  collectibles:[Collectible!]@derivedFrom(field: "collection")
+  collectibles: [Collectible!] @derivedFrom(field: "collection")
 }
 
 type Collectible @entity {
   id: ID! #token_id@collection_address
-  token_id:BigInt!
+  token_id: BigInt!
   collection: Collection! #Collection_address
   quantity: BigInt!
 }
 
 type OwnerCollectibleLookup @entity {
-id: ID! #User:Token_id@ADdress
-owner: User!
-collectible:Collectible!
-collection:Collection!
-quantity:BigInt!
+  id: ID! #User:Token_id@ADdress
+  owner: User!
+  collectible: Collectible!
+  collection: Collection!
+  quantity: BigInt!
 }
 
 type User @entity {
-  id: ID!                                # eth addr
-  collectibles: [OwnerCollectibleLookup!]@derivedFrom(field: "owner")  #List of collectibles
-  collections: [Collection!]@derivedFrom(field: "owner")  #List of collectibles
+  id: ID! # eth addr
+  collectibles: [OwnerCollectibleLookup!] @derivedFrom(field: "owner") #List of collectibles
+  collections: [Collection!] @derivedFrom(field: "owner") #List of collectibles
 }
