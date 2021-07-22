@@ -188,17 +188,17 @@ export function handleTransferSingle(event: TransferSingle): void {
     value.toString(),
     event.params.from.toHex(),
   ]);
-  let id = event.params.id;
+  let tokenId = event.params.id;
   let from = event.params.from.toHex();
   let to = event.params.to.toHex();
 
   let userFrom = getUser(from);
   let userTo = getUser(to);
   // Set id of Collectible as `tokenId@CollectionAddress`
-  let token_id = id.toString() + "@" + collection.id;
-  log.info("Id: {}", [token_id]);
+  let id = tokenId.toString() + "@" + collection.id;
+  log.info("Id: {}", [id]);
 
-  let collectible = getCollectible(id, collection);
+  let collectible = getCollectible(tokenId, collection);
 
   let wasMinted: boolean = from == "0x0000000000000000000000000000000000000000";
 
@@ -230,7 +230,7 @@ export function handleTransferSingle(event: TransferSingle): void {
   // If it was minted, the FROM address is the Zero address, therefore we don't create a lookup for it. (it won't work)
   if (wasMinted == false) {
     // I denote look-ups with the id `UserAddress:tokenId@CollectibleAddress`
-    let fromLookupId = from + ":" + token_id;
+    let fromLookupId = from + ":" + id;
 
     let fromLookup = OwnerCollectibleLookup.load(fromLookupId);
     if (fromLookup == null) {
@@ -264,7 +264,7 @@ export function handleTransferSingle(event: TransferSingle): void {
   // If it was burned, the TO address is the Zero address, therefore we dont'  create a lookup for it. (it won't work)
   if (isBurned == false) {
     // I denote look-ups with the id `UserAddress:tokenId@CollectibleAddress`
-    let toLookupId = to + ":" + token_id;
+    let toLookupId = to + ":" + id;
     // to lookup handler
     let toLookup = OwnerCollectibleLookup.load(toLookupId);
     if (toLookup == null) {
@@ -281,7 +281,7 @@ export function handleTransferSingle(event: TransferSingle): void {
       toLookup.quantity = value;
     } else {
       // Else, we hit the contract of this collectible's collection to know how much TO owns.
-      let ownedQuantity_to = contract.balanceOf(event.params.to, id);
+      let ownedQuantity_to = contract.balanceOf(event.params.to, tokenId);
       if (ownedQuantity_to != null) {
         // If replied nicely, we set the quantity that user owns for this collectible.
         toLookup.quantity = ownedQuantity_to;
