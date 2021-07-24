@@ -3,12 +3,12 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: collectionFactoryV1
+    name: collectionFactoryV2
     network: mainnet
     source:
-      address: "0x08957C298c1232e7FCf383F974dd92E7d9F6496E"
-      abi: collectionFactoryV1
-      startBlock: 12800000
+      address: "0x59F41e2116F7d1B524C0542ABa0481Ecc0eAccED"
+      abi: collectionFactoryV2
+      startBlock: 12889250
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -17,8 +17,8 @@ dataSources:
         - OwnershipTransferred
         - NewCollectionCreated
       abis:
-        - name: collectionFactoryV1
-          file: ./abis/collectionFactory.json
+        - name: collectionFactoryV2
+          file: ./abis/collectionFactoryV2.json
       eventHandlers:
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
