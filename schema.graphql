@@ -24,4 +24,12 @@ type User @entity {
   id: ID! # eth addr
   collectibles: [OwnerCollectibleLookup!] @derivedFrom(field: "owner") #List of collectibles
   collections: [Collection!] @derivedFrom(field: "owner") #List of collectibles
+  parcels:[Parcel!] @derivedFrom(field: "owner") #List of parcels
+}
+
+# PARCEL CONTRACT:
+
+type Parcel @entity {
+  id: ID! # parcel Id
+  owner: User!
 }

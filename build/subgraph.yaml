@@ -46,6 +46,26 @@ dataSources:
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
       file: collectionFactoryV1\collectionFactoryV1.wasm
+  - kind: ethereum/contract
+    name: Parcel
+    network: mainnet
+    source:
+      address: "0x79986aF15539de2db9A5086382daEdA917A9CF0C"
+      abi: Parcel
+      startBlock: 5735900
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Transfer
+      abis:
+        - name: Parcel
+          file: Parcel\abis\parcels.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleParcelTransfer
+      file: collectionFactoryV1\collectionFactoryV1.wasm
 templates:
   - name: cvCollectibles
     kind: ethereum/contract

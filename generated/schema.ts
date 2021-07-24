@@ -272,4 +272,61 @@ export class User extends Entity {
       this.set("collections", Value.fromStringArray(value as Array<string>));
     }
   }
+
+  get parcels(): Array<string> | null {
+    let value = this.get("parcels");
+    if (value === null || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set parcels(value: Array<string> | null) {
+    if (value === null) {
+      this.unset("parcels");
+    } else {
+      this.set("parcels", Value.fromStringArray(value as Array<string>));
+    }
+  }
+}
+
+export class Parcel extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Parcel entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Parcel entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Parcel", id.toString(), this);
+  }
+
+  static load(id: string): Parcel | null {
+    return store.get("Parcel", id) as Parcel | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get owner(): string {
+    let value = this.get("owner");
+    return value.toString();
+  }
+
+  set owner(value: string) {
+    this.set("owner", Value.fromString(value));
+  }
 }

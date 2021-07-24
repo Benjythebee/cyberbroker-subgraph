@@ -1,4 +1,6 @@
 import { NewCollectionCreated } from "../generated/collectionFactoryV1/collectionFactoryV1";
+
+// Template imports
 import {
   ApprovalForAll,
   MetaTransactionExecuted,
@@ -8,14 +10,16 @@ import {
   URI,
   cvCollectibles as CollectibleContract,
 } from "../generated/templates/cvCollectibles/cvCollectibles";
-
+// Import cvCollectible contract from templates (contracts created by factory)
 import { cvCollectibles } from "../generated/templates";
+// Import schema
 import {
   Collection,
   Collectible,
   OwnerCollectibleLookup,
   User,
 } from "../generated/schema";
+// Import utils
 import {
   Address,
   BigInt,
@@ -23,6 +27,7 @@ import {
   JSONValueKind,
   log,
 } from "@graphprotocol/graph-ts";
+// Import helpers
 import {
   getLegacyCollection,
   isLegacyContractAddress,
@@ -325,6 +330,23 @@ export function handleNewCollectionCreated(event: NewCollectionCreated): void {
   collection.save();
 }
 
+/*---- PARCEL CONTRACT ---------*/
+import { Transfer } from "../generated/Parcel/Parcel";
+import { Parcel } from "../generated/schema";
+export function handleParcelTransfer(event: Transfer): void {
+  let parcelId = event.params._tokenId;
+  let owner = event.params._to;
+  log.info("New parcel transfer: {}", [parcelId.toString()]);
+  let ownerEntity = getUser(owner.toHex());
+  let parcel = Parcel.load(parcelId.toString());
+  if (parcel == null) {
+    parcel = new Parcel(parcelId.toString());
+  }
+  parcel.owner = ownerEntity.id;
+  parcel.save();
+}
+
+/*-------------- HELPERS -------------------------*/
 export function getCollectible(
   id: BigInt,
   collection: Collection | null
@@ -384,3 +406,4 @@ export function getCollection(address: Address): Collection | null {
 
   return collection;
 }
+/*-------------- HELPERS -------------------------*/
