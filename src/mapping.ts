@@ -30,7 +30,6 @@ import {
 // Import helpers
 import {
   getLegacyCollection,
-  isLegacyContractAddress,
   jsonToString,
 } from "./helpers";
 
@@ -127,10 +126,11 @@ export function handleTransferBatch(event: TransferBatchEvent): void {
       }
 
       // We hit the contract of that collection and ask it how much the FROM user owns.
-      let ownedQuantity_from = contract.balanceOf(event.params.from, token_id);
-      if (ownedQuantity_from != null) {
+      let ownedQuantity_from = contract.try_balanceOf(event.params.from, token_id);
+
+      if(!ownedQuantity_from.reverted) {
         // if contract responded, set the quantity FROM user owns.
-        fromLookup.quantity = ownedQuantity_from;
+        fromLookup.quantity = ownedQuantity_from.value;
       } else if (fromLookup.quantity >= q) {
         // if not we attempt basic math.
         let amount = fromLookup.quantity.toI32() - q.toI32();
@@ -157,19 +157,20 @@ export function handleTransferBatch(event: TransferBatchEvent): void {
         toLookup.save();
       }
       // Hit the contract to ask how much that user owns.
-      let ownedQuantity_to = contract.balanceOf(event.params.to, token_id);
-      if (ownedQuantity_to != null) {
+      let ownedQuantity_to = contract.try_balanceOf(event.params.to, token_id);
+
+      if (!ownedQuantity_to.reverted) {
         // if contract responded, set the quantity TO user owns.
-        toLookup.quantity = ownedQuantity_to;
+        toLookup.quantity = ownedQuantity_to.value;
       } else {
         // if contract did not respond, We attempt math.
         let amount = toLookup.quantity.toI32() + q.toI32();
         toLookup.quantity = new BigInt(amount);
       }
-      //Check the quantity is valid:
-      if (toLookup.quantity == null) {
-        toLookup.quantity = new BigInt(1);
-      }
+      // //Check the quantity is valid:
+      // if (toLookup.quantity == null) {
+      //   toLookup.quantity = new BigInt(1);
+      // }
       toLookup.save();
     }
   }
@@ -183,8 +184,8 @@ export function handleTransferSingle(event: TransferSingle): void {
     return;
   }
   // Value of the transaction (generally null for single transfers, and X for minted.)
-  let value = event.params.value;
-  if (value == null) {
+  let value = event.params.value
+  if (!value) {
     value = new BigInt(1);
   }
   log.info("New singleTransfer: hash {}, token_id: {}, value: {}, from: {}", [
@@ -251,10 +252,10 @@ export function handleTransferSingle(event: TransferSingle): void {
     log.debug("Getting balance of from: {}", [event.params.from.toHex()]);
 
     // We hit the contract of that collection and ask it how much the FROM user owns.
-    let balFrom = contract.balanceOf(event.params.from, collectible.token_id);
-    if (balFrom != null) {
+    let balFrom = contract.try_balanceOf(event.params.from, collectible.token_id);
+    if (!balFrom.reverted) {
       // if contract responded, set the quantity FROM user owns.
-      fromLookup.quantity = balFrom;
+      fromLookup.quantity = balFrom.value;
     } else if (fromLookup.quantity >= value) {
       // if contract badly responded, we attempt to do simple math and remove the quantity sent.
       let amount = fromLookup.quantity.toI32() - value.toI32();
@@ -286,19 +287,22 @@ export function handleTransferSingle(event: TransferSingle): void {
       toLookup.quantity = value;
     } else {
       // Else, we hit the contract of this collectible's collection to know how much TO owns.
-      let ownedQuantity_to = contract.balanceOf(event.params.to, tokenId);
-      if (ownedQuantity_to != null) {
+      let ownedQuantity_to = contract.try_balanceOf(
+        event.params.to,
+        collectible.token_id
+      );
+      if (!ownedQuantity_to.reverted) {
         // If replied nicely, we set the quantity that user owns for this collectible.
-        toLookup.quantity = ownedQuantity_to;
+        toLookup.quantity = ownedQuantity_to.value;
       } else {
         // if contract badly responded, we attempt to do simple math and add the quantity received.
         let amount = toLookup.quantity.toI32() + value.toI32();
         toLookup.quantity = new BigInt(amount);
       }
       //Check the quantity is valid:
-      if (toLookup.quantity == null) {
-        toLookup.quantity = new BigInt(1);
-      }
+      // if (toLookup.quantity == null) {
+      //   toLookup.quantity = new BigInt(1);
+      // }
     }
 
     toLookup.save();
@@ -311,10 +315,6 @@ export function handleNewCollectionCreated(event: NewCollectionCreated): void {
   // Start indexing the collection; `event.params.collection` is the
   // address of the new collection contract
 
-  if (isLegacyContractAddress(event.params.collection)) {
-    // if it's an old collection we should not be here (old collection contract weren't made via the factory)
-    return;
-  }
   // Create an instance so we listen to every transactions of this contract.
   cvCollectibles.create(event.params.collection);
   let collection = new Collection(event.params.collection.toHex());
@@ -349,8 +349,8 @@ export function handleParcelTransfer(event: Transfer): void {
 /*-------------- HELPERS -------------------------*/
 export function getCollectible(
   id: BigInt,
-  collection: Collection | null
-): Collectible | null {
+  collection: Collection
+): Collectible {
   // Set id of Collectible as `tokenId@CollectionAddress`
   let token_id = id.toString() + "@" + collection.id;
   let collectible = Collectible.load(token_id);
@@ -365,7 +365,7 @@ export function getCollectible(
   return collectible;
 }
 
-export function getUser(address: string): User | null {
+export function getUser(address: string): User {
   // Grab a user.
   let user = User.load(address);
   if (user == null) {
@@ -383,22 +383,20 @@ export function getCollection(address: Address): Collection | null {
   let collection = Collection.load(addy);
   // Check if collection exists
   // If collection does not exists, we check if the address is a legacy contract (contract made by humans and not the contract factory)
-  if (collection == null && isLegacyContractAddress(address)) {
-    collection = new Collection(addy);
+  if (collection == null) {
     let c = getLegacyCollection(address);
+    if(c){
+      collection = new Collection(addy);
+      let legacy_id = jsonToString(c.get("id"));
+      let legacy_bigInt = BigInt.fromString(legacy_id);
+      let legacy_owner = jsonToString(c.get("owner"));
+      log.debug("legacy: {}, owner: {}", [legacy_id, legacy_owner.toString()]);  
 
-    let legacy_id = jsonToString(c.get("id"));
-    let legacy_bigInt = BigInt.fromString(legacy_id);
-    let legacy_owner = jsonToString(c.get("owner"));
-    log.debug("legacy: {}, owner: {}", [legacy_id, legacy_owner.toString()]);
-    if (c) {
-      // Because this is a legacy contract
-      // we create a new contract Instance on TheGRaph to listen to transferSingle, transferBatch
-      cvCollectibles.create(address);
+      collection.collection_id = legacy_bigInt;
+      collection.owner = legacy_owner.toString();
+      collection.save();
     }
-    collection.collection_id = legacy_bigInt;
-    collection.owner = legacy_owner.toString();
-    collection.save();
+
   }
   if (collection) {
     log.info("Got a collection: {}", [addy]);
@@ -406,4 +404,3 @@ export function getCollection(address: Address): Collection | null {
 
   return collection;
 }
-/*-------------- HELPERS -------------------------*/
