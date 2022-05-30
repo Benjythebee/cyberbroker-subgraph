@@ -25,30 +25,907 @@ dataSources:
         - event: NewCollectionCreated(indexed address,indexed address,indexed uint256)
           handler: handleNewCollectionCreated
       file: ./src/mapping.ts
-  - name: cvCollectibles
+  
+  - name: cvCollectibles1
     kind: ethereum/contract
     network: mainnet
     source:
-      abi: cvCollectibles
-      startBlock: 5740000
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0xa58b5224e2fd94020cb2837231b2b0e4247301a6"
     mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.5
-      language: wasm/assemblyscript
-      entities:
-        # - ApprovalForAll
-        # - MetaTransactionExecuted
-        - OwnershipTransferred
-        - TransferBatch
-        - TransferSingle
-        # - URI
-      abis:
-        - name: cvCollectibles
-          file: ./abis/cvCollectiblesold.json
-      eventHandlers:
-        - event: OwnershipTransferred(indexed address,indexed address)
-          handler: handleOwnershipTransferred
-      file: ./src/mapping.ts
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles2
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0xbc8559d24ec625d2e5b91dce91f44384a2f5be4a"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles3
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0xf78229f4f3ef95fecbea50239a26339b5ad2d31c"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles4
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0xdcc51076a4d5fdd7e69c6cce809bcd413ed2adb2"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles5
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0xaeffdf4a5baecd175f3f73d529ffed26f5e83ec7"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles6
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0xbe3e6ed1d5e5faa58d98693ea6e2cf4f2c80b426"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles7
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0xb82671d8a6bb3b3077c940d0344df0b99e64ac22"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles8
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0xe785afd390bccc9110923b81d8ab04edafacb971"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles9
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0x673f01361566b6f2b402cdaa4951719a27c738c3"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles10
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0x25dca74800852cd9e384970a9e6a29151ff0ed8f"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles11
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0x534cc87f046a52a99f21958114a7872c02fbf9bd"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles12
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0xd88e73ad2bfa1cec029deed18ec5e44d2dceca1e"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles13
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0xef9a88fd0232c477018f2131168f67e2bbe97d92"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles14
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0x52f3adf1e91dd96ea2a4bccc4e6f56757300ccd5"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles15
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0xf588337ac1e58f363df651cf3e365876cd74831b"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles16
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0x7fcfd34a7ff035fa19505646daaed4a3cb88891d"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles17
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0x7fb64b2f778a5b5f275ddff3a7d638c496d79769"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles18
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0xe3e58fa3994ad30a66fa2def7a553673eb40c499"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles19
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0xe548145d4e134cffc2e2bc3c75c7bad3b04538ce"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles20
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0xcd1ac8220c5493e30c6d1888690a1afb63a0ffda"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles21
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0x6e4e6091ed4d13ad4f504d53239291269d474f6d"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles22
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0xb2fa4b108bcb7ef72c4457af780621a5d4b4ee94"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles23
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0xfc30c1e006de173984155adbc4e62c55ee7acff9"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles24
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0xf655765519865cb47ff3069276370594f6bc93a3"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+ 
+  - name: cvCollectibles25
+    kind: ethereum/contract
+    network: mainnet
+    source:
+        abi: cvCollectibles
+        startBlock: 5740000
+        address: "0x95b1ef71eb42d3129f9ceaa7fe62cb1e24384307"
+    mapping:
+        kind: ethereum/events
+        apiVersion: 0.0.5
+        language: wasm/assemblyscript
+        entities:
+            - ApprovalForAll
+            - MetaTransactionExecuted
+            - OwnershipTransferred
+            - TransferBatch
+            - TransferSingle
+            - URI
+        abis:
+            - name: cvCollectibles
+              file: ./abis/cvCollectibles.json
+        eventHandlers:
+            # - event: ApprovalForAll(indexed address,indexed address,bool)
+            #   handler: handleApprovalForAll
+            # - event: MetaTransactionExecuted(address,address,bytes)
+            #   handler: handleMetaTransactionExecuted
+            - event: OwnershipTransferred(indexed address,indexed address)
+              handler: handleOwnershipTransferred
+            - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+              handler: handleTransferBatch
+            - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+              handler: handleTransferSingle
+            # - event: URI(string,indexed uint256)
+            #   handler: handleURI
+        file: ./src/mapping.ts
+
   - kind: ethereum/contract
     name: Parcel
     network: mainnet

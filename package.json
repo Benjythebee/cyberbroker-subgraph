@@ -10,7 +10,7 @@
     "deploy-local": "graph deploy --product hosted-service --node http://localhost:8020/ --ipfs http://localhost:5001 cryptovoxels/eth-collections --access-token db7754b431ab4cb9ad0751b353193735"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "0.21.0",
-    "@graphprotocol/graph-ts": "0.20.0"
+    "@graphprotocol/graph-cli": "^0.22.1",
+    "@graphprotocol/graph-ts": "^0.22.1"
   }
 }

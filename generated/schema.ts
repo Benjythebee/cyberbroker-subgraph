@@ -16,26 +16,31 @@ export class Collection extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
+
+    this.set("owner", Value.fromString(""));
+    this.set("collection_id", Value.fromBigInt(BigInt.zero()));
   }
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save Collection entity without an ID");
-    assert(
-      id.kind == ValueKind.STRING,
-      "Cannot save Collection entity with non-string ID. " +
-        'Considering using .toHex() to convert the "id" to a string.'
-    );
-    store.set("Collection", id.toString(), this);
+    assert(id != null, "Cannot save Collection entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save Collection entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("Collection", id.toString(), this);
+    }
   }
 
   static load(id: string): Collection | null {
-    return store.get("Collection", id) as Collection | null;
+    return changetype<Collection | null>(store.get("Collection", id));
   }
 
   get id(): string {
     let value = this.get("id");
-    return value.toString();
+    return value!.toString();
   }
 
   set id(value: string) {
@@ -44,7 +49,7 @@ export class Collection extends Entity {
 
   get owner(): string {
     let value = this.get("owner");
-    return value.toString();
+    return value!.toString();
   }
 
   set owner(value: string) {
@@ -53,7 +58,7 @@ export class Collection extends Entity {
 
   get collection_id(): BigInt {
     let value = this.get("collection_id");
-    return value.toBigInt();
+    return value!.toBigInt();
   }
 
   set collection_id(value: BigInt) {
@@ -62,7 +67,7 @@ export class Collection extends Entity {
 
   get collectibles(): Array<string> | null {
     let value = this.get("collectibles");
-    if (value === null || value.kind == ValueKind.NULL) {
+    if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
       return value.toStringArray();
@@ -70,10 +75,10 @@ export class Collection extends Entity {
   }
 
   set collectibles(value: Array<string> | null) {
-    if (value === null) {
+    if (!value) {
       this.unset("collectibles");
     } else {
-      this.set("collectibles", Value.fromStringArray(value as Array<string>));
+      this.set("collectibles", Value.fromStringArray(<Array<string>>value));
     }
   }
 }
@@ -82,26 +87,32 @@ export class Collectible extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
+
+    this.set("token_id", Value.fromBigInt(BigInt.zero()));
+    this.set("collection", Value.fromString(""));
+    this.set("quantity", Value.fromBigInt(BigInt.zero()));
   }
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save Collectible entity without an ID");
-    assert(
-      id.kind == ValueKind.STRING,
-      "Cannot save Collectible entity with non-string ID. " +
-        'Considering using .toHex() to convert the "id" to a string.'
-    );
-    store.set("Collectible", id.toString(), this);
+    assert(id != null, "Cannot save Collectible entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save Collectible entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("Collectible", id.toString(), this);
+    }
   }
 
   static load(id: string): Collectible | null {
-    return store.get("Collectible", id) as Collectible | null;
+    return changetype<Collectible | null>(store.get("Collectible", id));
   }
 
   get id(): string {
     let value = this.get("id");
-    return value.toString();
+    return value!.toString();
   }
 
   set id(value: string) {
@@ -110,7 +121,7 @@ export class Collectible extends Entity {
 
   get token_id(): BigInt {
     let value = this.get("token_id");
-    return value.toBigInt();
+    return value!.toBigInt();
   }
 
   set token_id(value: BigInt) {
@@ -119,7 +130,7 @@ export class Collectible extends Entity {
 
   get collection(): string {
     let value = this.get("collection");
-    return value.toString();
+    return value!.toString();
   }
 
   set collection(value: string) {
@@ -128,7 +139,7 @@ export class Collectible extends Entity {
 
   get quantity(): BigInt {
     let value = this.get("quantity");
-    return value.toBigInt();
+    return value!.toBigInt();
   }
 
   set quantity(value: BigInt) {
@@ -140,32 +151,38 @@ export class OwnerCollectibleLookup extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
+
+    this.set("owner", Value.fromString(""));
+    this.set("collectible", Value.fromString(""));
+    this.set("collection", Value.fromString(""));
+    this.set("quantity", Value.fromBigInt(BigInt.zero()));
   }
 
   save(): void {
     let id = this.get("id");
     assert(
-      id !== null,
+      id != null,
       "Cannot save OwnerCollectibleLookup entity without an ID"
     );
-    assert(
-      id.kind == ValueKind.STRING,
-      "Cannot save OwnerCollectibleLookup entity with non-string ID. " +
-        'Considering using .toHex() to convert the "id" to a string.'
-    );
-    store.set("OwnerCollectibleLookup", id.toString(), this);
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save OwnerCollectibleLookup entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("OwnerCollectibleLookup", id.toString(), this);
+    }
   }
 
   static load(id: string): OwnerCollectibleLookup | null {
-    return store.get(
-      "OwnerCollectibleLookup",
-      id
-    ) as OwnerCollectibleLookup | null;
+    return changetype<OwnerCollectibleLookup | null>(
+      store.get("OwnerCollectibleLookup", id)
+    );
   }
 
   get id(): string {
     let value = this.get("id");
-    return value.toString();
+    return value!.toString();
   }
 
   set id(value: string) {
@@ -174,7 +191,7 @@ export class OwnerCollectibleLookup extends Entity {
 
   get owner(): string {
     let value = this.get("owner");
-    return value.toString();
+    return value!.toString();
   }
 
   set owner(value: string) {
@@ -183,7 +200,7 @@ export class OwnerCollectibleLookup extends Entity {
 
   get collectible(): string {
     let value = this.get("collectible");
-    return value.toString();
+    return value!.toString();
   }
 
   set collectible(value: string) {
@@ -192,7 +209,7 @@ export class OwnerCollectibleLookup extends Entity {
 
   get collection(): string {
     let value = this.get("collection");
-    return value.toString();
+    return value!.toString();
   }
 
   set collection(value: string) {
@@ -201,7 +218,7 @@ export class OwnerCollectibleLookup extends Entity {
 
   get quantity(): BigInt {
     let value = this.get("quantity");
-    return value.toBigInt();
+    return value!.toBigInt();
   }
 
   set quantity(value: BigInt) {
@@ -217,22 +234,24 @@ export class User extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save User entity without an ID");
-    assert(
-      id.kind == ValueKind.STRING,
-      "Cannot save User entity with non-string ID. " +
-        'Considering using .toHex() to convert the "id" to a string.'
-    );
-    store.set("User", id.toString(), this);
+    assert(id != null, "Cannot save User entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save User entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("User", id.toString(), this);
+    }
   }
 
   static load(id: string): User | null {
-    return store.get("User", id) as User | null;
+    return changetype<User | null>(store.get("User", id));
   }
 
   get id(): string {
     let value = this.get("id");
-    return value.toString();
+    return value!.toString();
   }
 
   set id(value: string) {
@@ -241,7 +260,7 @@ export class User extends Entity {
 
   get collectibles(): Array<string> | null {
     let value = this.get("collectibles");
-    if (value === null || value.kind == ValueKind.NULL) {
+    if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
       return value.toStringArray();
@@ -249,16 +268,16 @@ export class User extends Entity {
   }
 
   set collectibles(value: Array<string> | null) {
-    if (value === null) {
+    if (!value) {
       this.unset("collectibles");
     } else {
-      this.set("collectibles", Value.fromStringArray(value as Array<string>));
+      this.set("collectibles", Value.fromStringArray(<Array<string>>value));
     }
   }
 
   get collections(): Array<string> | null {
     let value = this.get("collections");
-    if (value === null || value.kind == ValueKind.NULL) {
+    if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
       return value.toStringArray();
@@ -266,16 +285,16 @@ export class User extends Entity {
   }
 
   set collections(value: Array<string> | null) {
-    if (value === null) {
+    if (!value) {
       this.unset("collections");
     } else {
-      this.set("collections", Value.fromStringArray(value as Array<string>));
+      this.set("collections", Value.fromStringArray(<Array<string>>value));
     }
   }
 
   get parcels(): Array<string> | null {
     let value = this.get("parcels");
-    if (value === null || value.kind == ValueKind.NULL) {
+    if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
       return value.toStringArray();
@@ -283,10 +302,10 @@ export class User extends Entity {
   }
 
   set parcels(value: Array<string> | null) {
-    if (value === null) {
+    if (!value) {
       this.unset("parcels");
     } else {
-      this.set("parcels", Value.fromStringArray(value as Array<string>));
+      this.set("parcels", Value.fromStringArray(<Array<string>>value));
     }
   }
 }
@@ -295,26 +314,30 @@ export class Parcel extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
+
+    this.set("owner", Value.fromString(""));
   }
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save Parcel entity without an ID");
-    assert(
-      id.kind == ValueKind.STRING,
-      "Cannot save Parcel entity with non-string ID. " +
-        'Considering using .toHex() to convert the "id" to a string.'
-    );
-    store.set("Parcel", id.toString(), this);
+    assert(id != null, "Cannot save Parcel entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save Parcel entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("Parcel", id.toString(), this);
+    }
   }
 
   static load(id: string): Parcel | null {
-    return store.get("Parcel", id) as Parcel | null;
+    return changetype<Parcel | null>(store.get("Parcel", id));
   }
 
   get id(): string {
     let value = this.get("id");
-    return value.toString();
+    return value!.toString();
   }
 
   set id(value: string) {
@@ -323,7 +346,7 @@ export class Parcel extends Entity {
 
   get owner(): string {
     let value = this.get("owner");
-    return value.toString();
+    return value!.toString();
   }
 
   set owner(value: string) {
