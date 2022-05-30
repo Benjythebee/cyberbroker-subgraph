@@ -11,7 +11,7 @@ dataSources:
       startBlock: 12889250
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
         - OwnershipTransferred
@@ -33,7 +33,7 @@ dataSources:
       startBlock: 5740000
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
         # - ApprovalForAll
@@ -58,7 +58,7 @@ dataSources:
       startBlock: 5735900
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
         - Transfer
@@ -78,7 +78,7 @@ templates:
       abi: cvCollectibles
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
         - ApprovalForAll
