@@ -1,9 +1,16 @@
 # Subgraph for ETH collection
-The repo for the Subgraph of cryptovoxels names
+The repo for the Subgraph of cryptovoxels ethereum collections
 
 You can follow the tutorial at [https://thegraph.com/docs/developer/quick-start](https://thegraph.com/docs/developer/quick-start)
 
-# Start-up
+## How it works:
+The subgraph node listens to the factory contract at <a href='https://etherscan.io/address/0x59F41e2116F7d1B524C0542ABa0481Ecc0eAccED'>0x59F41e2116F7d1B524C0542ABa0481Ecc0eAccED</a>.
+
+When a new contract is created, an event is fired containing the collection_id and the collection address;
+
+The subgraph grabs that and automatically listens to the new contracts.
+
+## Start-up
 
 Clone the repo
 
@@ -14,7 +21,7 @@ run `npm install`
 run `npm run codegen`
 
 ### if studio
-You can find the subgraph and the access key at `https://thegraph.com/studio/` You have to connect with wallet `0x21F7db7DaA3f03100EB6ad36f79e20972a79E6c0` (ask someone for seed phrase)
+You can find the subgraph and the access key at `https://thegraph.com/studio/` You have to connect with wallet `0x21F7db7DaA3f03100EB6ad36f79e20972a79E6c0` (ask someone with 1password for seed phrase)
 ### if free hosted service (current)
 Grab the access-key from the subgraph in `https://thegraph.com/legacy-explorer/dashboard`
 
@@ -22,9 +29,9 @@ Grab the access-key from the subgraph in `https://thegraph.com/legacy-explorer/d
 run `graph auth --studio <DEPLOY KEY>`
 
 ### if free hosted service (current)
-not `graph auth --product hosted-service <ACCESS_TOKEN>`
+run `graph auth --product hosted-service <ACCESS_TOKEN>`
 
-(if that doesn't work, edit package.json and add `--access-token <token>` to the end of each graph script.)
+(if that doesn't work, edit package.json and add `--access-token <ACCESS_TOKEN>` to the end of each graph script.)
 
 # Deploying
 run `npm run deploy`
