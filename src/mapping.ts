@@ -48,7 +48,9 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void {
     // Contract is unknown.
     return;
   }
-  collection.owner = event.params.newOwner.toHex();
+  let user = getUser(event.params.newOwner.toHex())
+  collection.owner = user.id;
+  log.debug('Transfer ownership: contract: {}; owner:{}',[event.address.toHex(),event.params.newOwner.toHex()])
   collection.save();
 }
 
@@ -325,8 +327,8 @@ export function handleNewCollectionCreated(event: NewCollectionCreated): void {
   ]);
   // Grab the user that made the collection.
   let user = getUser(event.params.owner.toHex());
-
   collection.owner = user.id;
+  collection.chain_id = BigInt.fromI32(1);
   collection.save();
 }
 
@@ -385,15 +387,19 @@ export function getCollection(address: Address): Collection | null {
   // If collection does not exists, we check if the address is a legacy contract (contract made by humans and not the contract factory)
   if (collection == null) {
     let c = getLegacyCollection(address);
-    if(c){
+    if(c != null){
       collection = new Collection(addy);
       let legacy_id = jsonToString(c.get("id"));
       let legacy_bigInt = BigInt.fromString(legacy_id);
       let legacy_owner = jsonToString(c.get("owner"));
-      log.debug("legacy: {}, owner: {}", [legacy_id, legacy_owner.toString()]);  
 
+      log.info("legacy: {}, owner: {}", [legacy_id, legacy_owner]);  
+
+      let user = getUser(legacy_owner)
       collection.collection_id = legacy_bigInt;
-      collection.owner = legacy_owner.toString();
+      collection.owner = user.id;
+      
+      collection.chain_id = BigInt.fromI32(1);
       collection.save();
     }
 

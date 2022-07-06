@@ -18,6 +18,7 @@ export class Collection extends Entity {
     this.set("id", Value.fromString(id));
 
     this.set("owner", Value.fromString(""));
+    this.set("chain_id", Value.fromBigInt(BigInt.zero()));
     this.set("collection_id", Value.fromBigInt(BigInt.zero()));
   }
 
@@ -54,6 +55,15 @@ export class Collection extends Entity {
 
   set owner(value: string) {
     this.set("owner", Value.fromString(value));
+  }
+
+  get chain_id(): BigInt {
+    let value = this.get("chain_id");
+    return value!.toBigInt();
+  }
+
+  set chain_id(value: BigInt) {
+    this.set("chain_id", Value.fromBigInt(value));
   }
 
   get collection_id(): BigInt {

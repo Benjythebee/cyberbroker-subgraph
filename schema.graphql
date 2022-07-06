@@ -1,6 +1,7 @@
 type Collection @entity {
   id: ID! #eth address
   owner: User!
+  chain_id: BigInt! #chain Id
   collection_id: BigInt! #collection Id
   collectibles: [Collectible!] @derivedFrom(field: "collection")
 }
