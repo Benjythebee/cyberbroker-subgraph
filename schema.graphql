@@ -1,10 +1,28 @@
 type Cyberbroker @entity {
   id: ID! #token_id
   owner: User!
-  transferCount:BigInt!
+  transferCount: BigInt!
+  transfers:[Transfer!] @derivedFrom(field: "cyberbroker")
 }
 
 type User @entity {
   id: ID! # eth addr
   cyberbrokers: [Cyberbroker!] @derivedFrom(field: "owner") #List of Cyberbroker
+}
+
+# One transaction; one transaction can have multiple transfers
+type Transaction @entity {
+ id:ID! #transaction hash
+ timestamp:BigInt!
+ block:BigInt!
+ transfers:[Transfer!] @derivedFrom(field: "transaction")
+}
+
+# There can be multiple transfers in one transaction
+type Transfer @entity {
+ id:ID! #token_id + : + transaction hash
+ cyberbroker:Cyberbroker!
+ from:User!
+ to:User!
+ transaction:Transaction!
 }

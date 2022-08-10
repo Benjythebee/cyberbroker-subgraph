@@ -1,10 +1,10 @@
 import {
   Address,
   log,
-  BigInt
+  BigInt,
+  ethereum
 } from "@graphprotocol/graph-ts";
-import { cyberbrokers } from "../generated/Cyberbrokers/cyberbrokers";
-import { Cyberbroker, User } from "../generated/schema";
+import { Cyberbroker, Transaction, Transfer, User } from "../generated/schema";
 
 
 
@@ -34,4 +34,34 @@ export function getCyberbroker(token_id: BigInt): Cyberbroker {
   }
   log.info("Found cyberbroker: {}", [id]);
   return cyberbroker;
+}
+
+export function getTransaction(transactionHash: string,block: ethereum.Block): Transaction {
+  const id = transactionHash
+  // Grab a user.
+  let tx = Transaction.load(id);
+  if (tx == null) {
+    // create new user.
+    tx = new Transaction(id);
+    tx.block = block.number
+    tx.timestamp = block.timestamp
+    tx.save();
+  }
+  return tx;
+}
+
+export function getTransfer(transaction: Transaction,token_id:string): Transfer {
+  const id = token_id.concat(':').concat(transaction.id)
+  // Grab a Transfer.
+  let transfer = Transfer.load(id);
+  if (transfer == null) {
+    transfer = new Transfer(id);
+    transfer.transaction=transaction.id
+    transfer.cyberbroker=token_id
+    transfer.from = Address.zero().toHex()
+    transfer.to = Address.zero().toHex()
+    transfer.save();
+  }
+  log.info("Found transfer: {}", [id]);
+  return transfer;
 }

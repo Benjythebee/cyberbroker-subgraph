@@ -28,3 +28,24 @@ run `graph auth --product hosted-service <ACCESS_TOKEN>`
 run `npm run deploy`
 or  `npm run deploy-local` if you have a local server set-up
 
+# Querying subgraph
+Use your favorite GraphQl client (like urql).
+
+URL to query: `https://api.thegraph.com/subgraphs/name/benjythebee/cyberbroker-subgraph`
+
+Example query:
+query{
+  cyberbrokers(first: 5) {
+    id
+    owner {
+      id
+    }
+    transferCount
+  }
+  users(first: 5) {
+    id
+    cyberbrokers {
+      id
+    }
+  }
+}
