@@ -12,31 +12,30 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class Collection extends Entity {
+export class Cyberbroker extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
 
     this.set("owner", Value.fromString(""));
-    this.set("chain_id", Value.fromBigInt(BigInt.zero()));
-    this.set("collection_id", Value.fromBigInt(BigInt.zero()));
+    this.set("transferCount", Value.fromBigInt(BigInt.zero()));
   }
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save Collection entity without an ID");
+    assert(id != null, "Cannot save Cyberbroker entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        "Cannot save Collection entity with non-string ID. " +
+        "Cannot save Cyberbroker entity with non-string ID. " +
           'Considering using .toHex() to convert the "id" to a string.'
       );
-      store.set("Collection", id.toString(), this);
+      store.set("Cyberbroker", id.toString(), this);
     }
   }
 
-  static load(id: string): Collection | null {
-    return changetype<Collection | null>(store.get("Collection", id));
+  static load(id: string): Cyberbroker | null {
+    return changetype<Cyberbroker | null>(store.get("Cyberbroker", id));
   }
 
   get id(): string {
@@ -57,182 +56,13 @@ export class Collection extends Entity {
     this.set("owner", Value.fromString(value));
   }
 
-  get chain_id(): BigInt {
-    let value = this.get("chain_id");
+  get transferCount(): BigInt {
+    let value = this.get("transferCount");
     return value!.toBigInt();
   }
 
-  set chain_id(value: BigInt) {
-    this.set("chain_id", Value.fromBigInt(value));
-  }
-
-  get collection_id(): BigInt {
-    let value = this.get("collection_id");
-    return value!.toBigInt();
-  }
-
-  set collection_id(value: BigInt) {
-    this.set("collection_id", Value.fromBigInt(value));
-  }
-
-  get collectibles(): Array<string> | null {
-    let value = this.get("collectibles");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toStringArray();
-    }
-  }
-
-  set collectibles(value: Array<string> | null) {
-    if (!value) {
-      this.unset("collectibles");
-    } else {
-      this.set("collectibles", Value.fromStringArray(<Array<string>>value));
-    }
-  }
-}
-
-export class Collectible extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-
-    this.set("token_id", Value.fromBigInt(BigInt.zero()));
-    this.set("collection", Value.fromString(""));
-    this.set("quantity", Value.fromBigInt(BigInt.zero()));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save Collectible entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        "Cannot save Collectible entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
-      );
-      store.set("Collectible", id.toString(), this);
-    }
-  }
-
-  static load(id: string): Collectible | null {
-    return changetype<Collectible | null>(store.get("Collectible", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get token_id(): BigInt {
-    let value = this.get("token_id");
-    return value!.toBigInt();
-  }
-
-  set token_id(value: BigInt) {
-    this.set("token_id", Value.fromBigInt(value));
-  }
-
-  get collection(): string {
-    let value = this.get("collection");
-    return value!.toString();
-  }
-
-  set collection(value: string) {
-    this.set("collection", Value.fromString(value));
-  }
-
-  get quantity(): BigInt {
-    let value = this.get("quantity");
-    return value!.toBigInt();
-  }
-
-  set quantity(value: BigInt) {
-    this.set("quantity", Value.fromBigInt(value));
-  }
-}
-
-export class OwnerCollectibleLookup extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-
-    this.set("owner", Value.fromString(""));
-    this.set("collectible", Value.fromString(""));
-    this.set("collection", Value.fromString(""));
-    this.set("quantity", Value.fromBigInt(BigInt.zero()));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(
-      id != null,
-      "Cannot save OwnerCollectibleLookup entity without an ID"
-    );
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        "Cannot save OwnerCollectibleLookup entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
-      );
-      store.set("OwnerCollectibleLookup", id.toString(), this);
-    }
-  }
-
-  static load(id: string): OwnerCollectibleLookup | null {
-    return changetype<OwnerCollectibleLookup | null>(
-      store.get("OwnerCollectibleLookup", id)
-    );
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get owner(): string {
-    let value = this.get("owner");
-    return value!.toString();
-  }
-
-  set owner(value: string) {
-    this.set("owner", Value.fromString(value));
-  }
-
-  get collectible(): string {
-    let value = this.get("collectible");
-    return value!.toString();
-  }
-
-  set collectible(value: string) {
-    this.set("collectible", Value.fromString(value));
-  }
-
-  get collection(): string {
-    let value = this.get("collection");
-    return value!.toString();
-  }
-
-  set collection(value: string) {
-    this.set("collection", Value.fromString(value));
-  }
-
-  get quantity(): BigInt {
-    let value = this.get("quantity");
-    return value!.toBigInt();
-  }
-
-  set quantity(value: BigInt) {
-    this.set("quantity", Value.fromBigInt(value));
+  set transferCount(value: BigInt) {
+    this.set("transferCount", Value.fromBigInt(value));
   }
 }
 
@@ -268,8 +98,8 @@ export class User extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get collectibles(): Array<string> | null {
-    let value = this.get("collectibles");
+  get cyberbrokers(): Array<string> | null {
+    let value = this.get("cyberbrokers");
     if (!value || value.kind == ValueKind.NULL) {
       return null;
     } else {
@@ -277,89 +107,11 @@ export class User extends Entity {
     }
   }
 
-  set collectibles(value: Array<string> | null) {
+  set cyberbrokers(value: Array<string> | null) {
     if (!value) {
-      this.unset("collectibles");
+      this.unset("cyberbrokers");
     } else {
-      this.set("collectibles", Value.fromStringArray(<Array<string>>value));
+      this.set("cyberbrokers", Value.fromStringArray(<Array<string>>value));
     }
-  }
-
-  get collections(): Array<string> | null {
-    let value = this.get("collections");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toStringArray();
-    }
-  }
-
-  set collections(value: Array<string> | null) {
-    if (!value) {
-      this.unset("collections");
-    } else {
-      this.set("collections", Value.fromStringArray(<Array<string>>value));
-    }
-  }
-
-  get parcels(): Array<string> | null {
-    let value = this.get("parcels");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toStringArray();
-    }
-  }
-
-  set parcels(value: Array<string> | null) {
-    if (!value) {
-      this.unset("parcels");
-    } else {
-      this.set("parcels", Value.fromStringArray(<Array<string>>value));
-    }
-  }
-}
-
-export class Parcel extends Entity {
-  constructor(id: string) {
-    super();
-    this.set("id", Value.fromString(id));
-
-    this.set("owner", Value.fromString(""));
-  }
-
-  save(): void {
-    let id = this.get("id");
-    assert(id != null, "Cannot save Parcel entity without an ID");
-    if (id) {
-      assert(
-        id.kind == ValueKind.STRING,
-        "Cannot save Parcel entity with non-string ID. " +
-          'Considering using .toHex() to convert the "id" to a string.'
-      );
-      store.set("Parcel", id.toString(), this);
-    }
-  }
-
-  static load(id: string): Parcel | null {
-    return changetype<Parcel | null>(store.get("Parcel", id));
-  }
-
-  get id(): string {
-    let value = this.get("id");
-    return value!.toString();
-  }
-
-  set id(value: string) {
-    this.set("id", Value.fromString(value));
-  }
-
-  get owner(): string {
-    let value = this.get("owner");
-    return value!.toString();
-  }
-
-  set owner(value: string) {
-    this.set("owner", Value.fromString(value));
   }
 }

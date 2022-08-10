@@ -1,30 +1,37 @@
 import {
   Address,
-  JSONValue,
-  JSONValueKind,
   log,
-  TypedMap,
+  BigInt
 } from "@graphprotocol/graph-ts";
-import { arrayOfBytess } from "./constant";
+import { cyberbrokers } from "../generated/Cyberbrokers/cyberbrokers";
+import { Cyberbroker, User } from "../generated/schema";
 
 
-export function getLegacyCollection(
-  address: Address
-): TypedMap<string, JSONValue>|null {
-  let p: TypedMap<string, JSONValue>|null = null;
-  for (let i = 0; i < arrayOfBytess.length; i++) {
-    let object = arrayOfBytess[i].toObject();
-    let addy = object.get("address")
-    if (jsonToString(addy) == address.toHex()) {
-      p = object;
-    }
+
+export function getUser(address: Address): User {
+  const addr = address.toHex()
+  // Grab a user.
+  let user = User.load(addr);
+  if (user == null) {
+    // create new user.
+    user = new User(addr);
+    user.save();
   }
-  return p;
+  log.info("Found user: {}", [addr]);
+  return user;
 }
 
-export function jsonToString(val: JSONValue | null): string {
-  if (val != null && val.kind === JSONValueKind.STRING) {
-    return val.toString();
+export function getCyberbroker(token_id: BigInt): Cyberbroker {
+  const id = token_id.toString()
+  // Grab a user.
+  let cyberbroker = Cyberbroker.load(id);
+  if (cyberbroker == null) {
+    // create new user.
+    cyberbroker = new Cyberbroker(id);
+    cyberbroker.transferCount = BigInt.zero()
+    cyberbroker.owner = Address.zero().toHex()
+    cyberbroker.save();
   }
-  return "";
+  log.info("Found cyberbroker: {}", [id]);
+  return cyberbroker;
 }
