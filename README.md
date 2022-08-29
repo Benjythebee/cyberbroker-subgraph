@@ -1,5 +1,5 @@
 # Subgraph for the Cyberbroker collection on ethereum
-The repo for the [Subgraph](https://thegraph.com/hosted-service/benjythebee/cyberbroker-subgraph) of Cyberbroker ethereum collections
+The repo for the [Subgraph](https://thegraph.com/hosted-service/subgraph/benjythebee/cyberbroker-subgraph) of Cyberbroker ethereum collections
 
 You can follow the tutorial at [https://thegraph.com/docs/developer/quick-start](https://thegraph.com/docs/developer/quick-start)
 
