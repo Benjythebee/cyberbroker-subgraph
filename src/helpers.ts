@@ -4,7 +4,7 @@ import {
   BigInt,
   ethereum
 } from "@graphprotocol/graph-ts";
-import { Cyberbroker, Transaction, Transfer, User } from "../generated/schema";
+import { Cyberbroker, Transaction, Transfer_Cyberbroker, Transfer_UnrevealedTPLMechaPart, UnrevealedTPLMechaPart, User } from "../generated/schema";
 
 
 
@@ -50,16 +50,51 @@ export function getTransaction(transactionHash: string,block: ethereum.Block): T
   return tx;
 }
 
-export function getTransfer(transaction: Transaction,token_id:string): Transfer {
-  const id = token_id.concat(':').concat(transaction.id)
+export function getCyberbrokerTransfer(transaction: Transaction,logIndex:BigInt,token_id:string): Transfer_Cyberbroker {
+  const id = token_id.concat(':').concat(transaction.id)+'@'+ logIndex.toString()
   // Grab a Transfer.
-  let transfer = Transfer.load(id);
+  let transfer = Transfer_Cyberbroker.load(id);
   if (transfer == null) {
-    transfer = new Transfer(id);
+    transfer = new Transfer_Cyberbroker(id);
     transfer.transaction=transaction.id
     transfer.cyberbroker=token_id
     transfer.from = Address.zero().toHex()
     transfer.to = Address.zero().toHex()
+    transfer.save();
+  }
+  log.info("Found transfer: {}", [id]);
+  return transfer;
+}
+
+// ------------- TPL MECHA PART
+
+export function getUnrevealedTplMechaPart(
+  id: BigInt
+): UnrevealedTPLMechaPart {
+  // Set id
+  let token_id = id.toString()
+  let U_TPLMechaPart = UnrevealedTPLMechaPart.load(token_id);
+  if (U_TPLMechaPart == null) {
+    // Create new UnrevealedTPLMechaPart Entity
+    U_TPLMechaPart = new UnrevealedTPLMechaPart(token_id);
+    // Set quantity 0 (helps knowing if collectible is new)
+    U_TPLMechaPart.quantity = BigInt.zero()
+    U_TPLMechaPart.save()
+  }
+  return U_TPLMechaPart;
+}
+
+export function getU_MechaPartTransfer(transaction: Transaction,logIndex:BigInt,token_id:string): Transfer_UnrevealedTPLMechaPart {
+  const id = token_id.concat(':').concat(transaction.id)+'@'+ logIndex.toString()
+  // Grab a Transfer.
+  let transfer = Transfer_UnrevealedTPLMechaPart.load(id);
+  if (transfer == null) {
+    transfer = new Transfer_UnrevealedTPLMechaPart(id);
+    transfer.transaction=transaction.id
+    transfer.UnrevealedTPLMechaPart=token_id
+    transfer.from = Address.zero().toHex()
+    transfer.to = Address.zero().toHex()
+    transfer.quantity = BigInt.zero()
     transfer.save();
   }
   log.info("Found transfer: {}", [id]);

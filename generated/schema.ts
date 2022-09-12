@@ -12,6 +12,141 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
+export class UnrevealedTPLMechaPart extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("quantity", Value.fromBigInt(BigInt.zero()));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(
+      id != null,
+      "Cannot save UnrevealedTPLMechaPart entity without an ID"
+    );
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save UnrevealedTPLMechaPart entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("UnrevealedTPLMechaPart", id.toString(), this);
+    }
+  }
+
+  static load(id: string): UnrevealedTPLMechaPart | null {
+    return changetype<UnrevealedTPLMechaPart | null>(
+      store.get("UnrevealedTPLMechaPart", id)
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get quantity(): BigInt {
+    let value = this.get("quantity");
+    return value!.toBigInt();
+  }
+
+  set quantity(value: BigInt) {
+    this.set("quantity", Value.fromBigInt(value));
+  }
+
+  get ownerLookups(): Array<string> | null {
+    let value = this.get("ownerLookups");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set ownerLookups(value: Array<string> | null) {
+    if (!value) {
+      this.unset("ownerLookups");
+    } else {
+      this.set("ownerLookups", Value.fromStringArray(<Array<string>>value));
+    }
+  }
+}
+
+export class OwnerUTPLMechaPartLookup extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("owner", Value.fromString(""));
+    this.set("UnrevealedTPLMechaPart", Value.fromString(""));
+    this.set("quantity", Value.fromBigInt(BigInt.zero()));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(
+      id != null,
+      "Cannot save OwnerUTPLMechaPartLookup entity without an ID"
+    );
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save OwnerUTPLMechaPartLookup entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("OwnerUTPLMechaPartLookup", id.toString(), this);
+    }
+  }
+
+  static load(id: string): OwnerUTPLMechaPartLookup | null {
+    return changetype<OwnerUTPLMechaPartLookup | null>(
+      store.get("OwnerUTPLMechaPartLookup", id)
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get owner(): string {
+    let value = this.get("owner");
+    return value!.toString();
+  }
+
+  set owner(value: string) {
+    this.set("owner", Value.fromString(value));
+  }
+
+  get UnrevealedTPLMechaPart(): string {
+    let value = this.get("UnrevealedTPLMechaPart");
+    return value!.toString();
+  }
+
+  set UnrevealedTPLMechaPart(value: string) {
+    this.set("UnrevealedTPLMechaPart", Value.fromString(value));
+  }
+
+  get quantity(): BigInt {
+    let value = this.get("quantity");
+    return value!.toBigInt();
+  }
+
+  set quantity(value: BigInt) {
+    this.set("quantity", Value.fromBigInt(value));
+  }
+}
+
 export class Cyberbroker extends Entity {
   constructor(id: string) {
     super();
@@ -65,13 +200,21 @@ export class Cyberbroker extends Entity {
     this.set("transferCount", Value.fromBigInt(value));
   }
 
-  get transfers(): Array<string> {
+  get transfers(): Array<string> | null {
     let value = this.get("transfers");
-    return value!.toStringArray();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
   }
 
-  set transfers(value: Array<string>) {
-    this.set("transfers", Value.fromStringArray(value));
+  set transfers(value: Array<string> | null) {
+    if (!value) {
+      this.unset("transfers");
+    } else {
+      this.set("transfers", Value.fromStringArray(<Array<string>>value));
+    }
   }
 }
 
@@ -121,6 +264,26 @@ export class User extends Entity {
       this.unset("cyberbrokers");
     } else {
       this.set("cyberbrokers", Value.fromStringArray(<Array<string>>value));
+    }
+  }
+
+  get unrevealedTPLMechaPartLookups(): Array<string> | null {
+    let value = this.get("unrevealedTPLMechaPartLookups");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set unrevealedTPLMechaPartLookups(value: Array<string> | null) {
+    if (!value) {
+      this.unset("unrevealedTPLMechaPartLookups");
+    } else {
+      this.set(
+        "unrevealedTPLMechaPartLookups",
+        Value.fromStringArray(<Array<string>>value)
+      );
     }
   }
 }
@@ -178,17 +341,48 @@ export class Transaction extends Entity {
     this.set("block", Value.fromBigInt(value));
   }
 
-  get transfers(): Array<string> {
-    let value = this.get("transfers");
-    return value!.toStringArray();
+  get transfersOfCyberbrokers(): Array<string> | null {
+    let value = this.get("transfersOfCyberbrokers");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
   }
 
-  set transfers(value: Array<string>) {
-    this.set("transfers", Value.fromStringArray(value));
+  set transfersOfCyberbrokers(value: Array<string> | null) {
+    if (!value) {
+      this.unset("transfersOfCyberbrokers");
+    } else {
+      this.set(
+        "transfersOfCyberbrokers",
+        Value.fromStringArray(<Array<string>>value)
+      );
+    }
+  }
+
+  get transfersOfUnrevealedTPLMechaPart(): Array<string> | null {
+    let value = this.get("transfersOfUnrevealedTPLMechaPart");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set transfersOfUnrevealedTPLMechaPart(value: Array<string> | null) {
+    if (!value) {
+      this.unset("transfersOfUnrevealedTPLMechaPart");
+    } else {
+      this.set(
+        "transfersOfUnrevealedTPLMechaPart",
+        Value.fromStringArray(<Array<string>>value)
+      );
+    }
   }
 }
 
-export class Transfer extends Entity {
+export class Transfer_Cyberbroker extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -201,19 +395,21 @@ export class Transfer extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id != null, "Cannot save Transfer entity without an ID");
+    assert(id != null, "Cannot save Transfer_Cyberbroker entity without an ID");
     if (id) {
       assert(
         id.kind == ValueKind.STRING,
-        "Cannot save Transfer entity with non-string ID. " +
+        "Cannot save Transfer_Cyberbroker entity with non-string ID. " +
           'Considering using .toHex() to convert the "id" to a string.'
       );
-      store.set("Transfer", id.toString(), this);
+      store.set("Transfer_Cyberbroker", id.toString(), this);
     }
   }
 
-  static load(id: string): Transfer | null {
-    return changetype<Transfer | null>(store.get("Transfer", id));
+  static load(id: string): Transfer_Cyberbroker | null {
+    return changetype<Transfer_Cyberbroker | null>(
+      store.get("Transfer_Cyberbroker", id)
+    );
   }
 
   get id(): string {
@@ -250,6 +446,95 @@ export class Transfer extends Entity {
 
   set to(value: string) {
     this.set("to", Value.fromString(value));
+  }
+
+  get transaction(): string {
+    let value = this.get("transaction");
+    return value!.toString();
+  }
+
+  set transaction(value: string) {
+    this.set("transaction", Value.fromString(value));
+  }
+}
+
+export class Transfer_UnrevealedTPLMechaPart extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("UnrevealedTPLMechaPart", Value.fromString(""));
+    this.set("from", Value.fromString(""));
+    this.set("to", Value.fromString(""));
+    this.set("quantity", Value.fromBigInt(BigInt.zero()));
+    this.set("transaction", Value.fromString(""));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(
+      id != null,
+      "Cannot save Transfer_UnrevealedTPLMechaPart entity without an ID"
+    );
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save Transfer_UnrevealedTPLMechaPart entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("Transfer_UnrevealedTPLMechaPart", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Transfer_UnrevealedTPLMechaPart | null {
+    return changetype<Transfer_UnrevealedTPLMechaPart | null>(
+      store.get("Transfer_UnrevealedTPLMechaPart", id)
+    );
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get UnrevealedTPLMechaPart(): string {
+    let value = this.get("UnrevealedTPLMechaPart");
+    return value!.toString();
+  }
+
+  set UnrevealedTPLMechaPart(value: string) {
+    this.set("UnrevealedTPLMechaPart", Value.fromString(value));
+  }
+
+  get from(): string {
+    let value = this.get("from");
+    return value!.toString();
+  }
+
+  set from(value: string) {
+    this.set("from", Value.fromString(value));
+  }
+
+  get to(): string {
+    let value = this.get("to");
+    return value!.toString();
+  }
+
+  set to(value: string) {
+    this.set("to", Value.fromString(value));
+  }
+
+  get quantity(): BigInt {
+    let value = this.get("quantity");
+    return value!.toBigInt();
+  }
+
+  set quantity(value: BigInt) {
+    this.set("quantity", Value.fromBigInt(value));
   }
 
   get transaction(): string {

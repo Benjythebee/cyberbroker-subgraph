@@ -26,3 +26,26 @@ dataSources:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleCyberBrokerTransfer
       file: ./src/mapping.ts
+  - kind: ethereum/contract
+    name: TplMechaContract
+    network: mainnet
+    source:
+      address: "0xf4baCB2375654Ef2459f427C8c6cF34573f75154"
+      abi: TplMechaContract
+      startBlock: 14570000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - TransferBatch
+        - TransferSingle
+      abis:
+        - name: TplMechaContract
+          file: ./abis/TplMechaContract.json
+      eventHandlers:
+          - event: TransferBatch(indexed address,indexed address,indexed address,uint256[],uint256[])
+            handler: handleTransferBatch
+          - event: TransferSingle(indexed address,indexed address,indexed address,uint256,uint256)
+            handler: handleTransferSingle
+      file: ./src/mapping.ts

@@ -1,13 +1,27 @@
+type UnrevealedTPLMechaPart @entity {
+  id: ID! #token_id
+  quantity:BigInt!
+  ownerLookups:[OwnerUTPLMechaPartLookup!] @derivedFrom(field: "UnrevealedTPLMechaPart")
+}
+
+type OwnerUTPLMechaPartLookup @entity {
+  id: ID! #User@Token_id
+  owner: User!
+  UnrevealedTPLMechaPart: UnrevealedTPLMechaPart!
+  quantity: BigInt!
+}
+
 type Cyberbroker @entity {
   id: ID! #token_id
   owner: User!
   transferCount: BigInt!
-  transfers:[Transfer!] @derivedFrom(field: "cyberbroker")
+  transfers:[Transfer_Cyberbroker!] @derivedFrom(field: "cyberbroker")
 }
 
 type User @entity {
   id: ID! # eth addr
   cyberbrokers: [Cyberbroker!] @derivedFrom(field: "owner") #List of Cyberbroker
+  unrevealedTPLMechaPartLookups: [OwnerUTPLMechaPartLookup!] @derivedFrom(field: "owner") #List of UnrevealedTPLMechaPart
 }
 
 # One transaction; one transaction can have multiple transfers
@@ -15,14 +29,25 @@ type Transaction @entity {
  id:ID! #transaction hash
  timestamp:BigInt!
  block:BigInt!
- transfers:[Transfer!] @derivedFrom(field: "transaction")
+ transfersOfCyberbrokers:[Transfer_Cyberbroker!] @derivedFrom(field: "transaction")
+ transfersOfUnrevealedTPLMechaPart:[Transfer_UnrevealedTPLMechaPart!] @derivedFrom(field: "transaction")
 }
 
 # There can be multiple transfers in one transaction
-type Transfer @entity {
- id:ID! #token_id + : + transaction hash
+type Transfer_Cyberbroker @entity {
+ id:ID! #token_id + : + transaction hash  + @ index
  cyberbroker:Cyberbroker!
  from:User!
  to:User!
+ transaction:Transaction!
+}
+
+# There can be multiple transfers in one transaction
+type Transfer_UnrevealedTPLMechaPart @entity {
+ id:ID! #token_id + : + transaction hash + @ index
+ UnrevealedTPLMechaPart:UnrevealedTPLMechaPart!
+ from:User!
+ to:User!
+ quantity:BigInt!
  transaction:Transaction!
 }
