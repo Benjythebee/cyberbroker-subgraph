@@ -50,7 +50,7 @@ export function getTransaction(transactionHash: string,block: ethereum.Block): T
   return tx;
 }
 
-export function getCyberbrokerTransfer(transaction: Transaction,logIndex:BigInt,token_id:string): Transfer_Cyberbroker {
+export function getCyberbrokerTransfer(transaction: Transaction,timestamp:BigInt,logIndex:BigInt,token_id:string): Transfer_Cyberbroker {
   const id = token_id.concat(':').concat(transaction.id)+'@'+ logIndex.toString()
   // Grab a Transfer.
   let transfer = Transfer_Cyberbroker.load(id);
@@ -60,6 +60,7 @@ export function getCyberbrokerTransfer(transaction: Transaction,logIndex:BigInt,
     transfer.cyberbroker=token_id
     transfer.from = Address.zero().toHex()
     transfer.to = Address.zero().toHex()
+    transfer.timestamp = timestamp;
     transfer.save();
   }
   log.info("Found transfer: {}", [id]);
@@ -84,7 +85,7 @@ export function getUnrevealedTplMechaPart(
   return U_TPLMechaPart;
 }
 
-export function getU_MechaPartTransfer(transaction: Transaction,logIndex:BigInt,token_id:string): Transfer_UnrevealedTPLMechaPart {
+export function getU_MechaPartTransfer(transaction: Transaction,timestamp:BigInt,logIndex:BigInt,token_id:string): Transfer_UnrevealedTPLMechaPart {
   const id = token_id.concat(':').concat(transaction.id)+'@'+ logIndex.toString()
   // Grab a Transfer.
   let transfer = Transfer_UnrevealedTPLMechaPart.load(id);
@@ -95,6 +96,7 @@ export function getU_MechaPartTransfer(transaction: Transaction,logIndex:BigInt,
     transfer.from = Address.zero().toHex()
     transfer.to = Address.zero().toHex()
     transfer.quantity = BigInt.zero()
+    transfer.timestamp = timestamp;
     transfer.save();
   }
   log.info("Found transfer: {}", [id]);

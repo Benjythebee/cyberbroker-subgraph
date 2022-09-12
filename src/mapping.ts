@@ -38,7 +38,7 @@ export function handleCyberBrokerTransfer(event: Transfer): void {
   let userTo = getUser(event.params.to)
   let transaction = getTransaction(event.transaction.hash.toHex(),event.block)
 
-  let transferEntity = getCyberbrokerTransfer(transaction,event.logIndex,cyberbroker.id)
+  let transferEntity = getCyberbrokerTransfer(transaction,event.block.timestamp,event.logIndex,cyberbroker.id)
   transferEntity.from=userFrom.id
   transferEntity.to=userTo.id;
   
@@ -87,7 +87,7 @@ export function handleTransferBatch(event: TransferBatch): void {
     // Quantity traded for that collectible
     let q = values[index];
 
-    let transferEntity = getU_MechaPartTransfer(transaction,event.logIndex,id)
+    let transferEntity = getU_MechaPartTransfer(transaction,event.block.timestamp,event.logIndex,id)
     transferEntity.from=userFrom.id
     transferEntity.to=userTo.id;  
     transferEntity.quantity = q;
@@ -202,7 +202,7 @@ export function handleTransferSingle(event: TransferSingle): void {
   let userTo = getUser(event.params.to);
 
   let transaction = getTransaction(event.transaction.hash.toHex(),event.block)
-  let transferEntity = getU_MechaPartTransfer(transaction,event.logIndex,tokenId.toString())
+  let transferEntity = getU_MechaPartTransfer(transaction,event.block.timestamp,event.logIndex,tokenId.toString())
   transferEntity.from=userFrom.id
   transferEntity.to=userTo.id;  
   transaction.save()

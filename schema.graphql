@@ -2,6 +2,7 @@ type UnrevealedTPLMechaPart @entity {
   id: ID! #token_id
   quantity:BigInt!
   ownerLookups:[OwnerUTPLMechaPartLookup!] @derivedFrom(field: "UnrevealedTPLMechaPart")
+  transfers:[Transfer_UnrevealedTPLMechaPart!] @derivedFrom(field: "UnrevealedTPLMechaPart")
 }
 
 type OwnerUTPLMechaPartLookup @entity {
@@ -40,6 +41,7 @@ type Transfer_Cyberbroker @entity {
  from:User!
  to:User!
  transaction:Transaction!
+ timestamp:BigInt!
 }
 
 # There can be multiple transfers in one transaction
@@ -50,4 +52,5 @@ type Transfer_UnrevealedTPLMechaPart @entity {
  to:User!
  quantity:BigInt!
  transaction:Transaction!
+ timestamp:BigInt!
 }
